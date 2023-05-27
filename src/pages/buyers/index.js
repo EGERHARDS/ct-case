@@ -1,9 +1,8 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
 import styles from "./Buyers.module.css";
+import BuyerCard from "@/components/BuyerCard.js";
 
-export default function Buyers() {
-  const { query } = useRouter();
+export default function Buyers({ buyers }) {
   return (
     <>
       <Head>
@@ -11,41 +10,64 @@ export default function Buyers() {
       </Head>
       <div className="wrapper">
         <h1 className={styles.headline}>Potential buyers</h1>
-        <p>
-          On this page you get the <code>`query`</code> params like{" "}
-          <code>`zipCode`</code>, and can use them to fetch a list of buyers
-          from the API.
-        </p>
-        <p>
-          Make sure to read the docs on how to fetch data on a page - There are
-          multiple ways of doing it, and you should choose the one that fits
-          your solution best.
-        </p>
-        <ul>
-          <li>
-            <a
-              href="https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props"
-              target="_blank"
-            >
-              next.js - Data fetching
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://react.dev/learn/synchronizing-with-effects#fetching-data"
-              target="_blank"
-            >
-              react.dev - Fetching data
-            </a>
-          </li>
-        </ul>
+        
         <div className={styles.content}>
-          <h2>Query params:</h2>
-          <pre>
-            <code>{JSON.stringify(query, null, 2)}</code>
-          </pre>
+          {buyers.length === 0 ? (
+            <p>No buyers found</p>
+          ) : (
+            buyers.map((buyer) => <BuyerCard key={buyer.id} {...buyer} />)
+          )}
         </div>
       </div>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { estateType, minSize } = context.query;
+
+  // Check if estateType and minSize are provided
+  if (!estateType || !minSize) {
+    return {
+      notFound: true, // This will return a 404 page
+    };
+  }
+
+  // Check if estateType is one of the allowed values
+  const allowedestateTypes = ["1", "2", "3", "4", "5", "6", "8", "9"];
+  if (!allowedestateTypes.includes(estateType)) {
+    return {
+      notFound: true,
+    };
+  }
+
+  // Check if minSize is a number
+  if (isNaN(minSize)) {
+    return {
+      notFound: true,
+    };
+  }
+
+  const res = await fetch(
+    `http://localhost:3001/api/find-buyers?estateType=${estateType}&minSize=${minSize}`
+  );
+
+  // Add a check for the response status
+  if (!res.ok) {
+    return {
+      notFound: true,
+    };
+  }
+
+  const data = await res.json();
+
+  const filteredBuyers = data.filter(
+    (buyer) => buyer.estateType === estateType && buyer.minSize <= minSize
+  );
+
+  return {
+    props: {
+      buyers: filteredBuyers,
+    },
+  };
 }

@@ -1,4 +1,5 @@
-import styles from 'src/pages/buyers/Buyers.module.css'; // Import styles
+import { useBuyer } from "@/context/BuyerContext";
+import styles from "src/pages/buyers/Buyers.module.css"; // Import styles
 
 export default function BuyerCard({
   id,
@@ -10,6 +11,23 @@ export default function BuyerCard({
   estateType,
   takeoverDate,
 }) {
+  const { addBuyer, chosenBuyers } = useBuyer();
+
+  const handleClick = () => {
+    addBuyer({
+      id,
+      maxPrice,
+      minSize,
+      adults,
+      children,
+      description,
+      estateType,
+      takeoverDate,
+    });
+    console.log(chosenBuyers);
+  };
+
+  console.log(chosenBuyers);
   return (
     <div className={styles.card}>
       <h2 className={styles.id}>ID: {id}</h2>
@@ -20,9 +38,7 @@ export default function BuyerCard({
       <p className={styles.description}>Description: {description}</p>
       <p className={styles.estateType}>Estate Type: {estateType}</p>
       <p className={styles.takeoverDate}>Takeover Date: {takeoverDate}</p>
-      <button className={styles.chooseButton} onClick={() => alert(`You chose buyer with ID: ${id}`)}>
-        Choose this buyer
-      </button>
+      <button onClick={handleClick}>Choose</button>
     </div>
   );
 }

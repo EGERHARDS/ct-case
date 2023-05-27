@@ -1,6 +1,7 @@
 import Head from "next/head";
 import styles from "./Buyers.module.css";
 import BuyerCard from "@/components/BuyerCard.js";
+import Link from "next/link";
 
 export default function Buyers({ buyers }) {
   return (
@@ -10,7 +11,7 @@ export default function Buyers({ buyers }) {
       </Head>
       <div className="wrapper">
         <h1 className={styles.headline}>Potential buyers</h1>
-        
+
         <div className={styles.content}>
           {buyers.length === 0 ? (
             <p>No buyers found</p>
@@ -18,6 +19,7 @@ export default function Buyers({ buyers }) {
             buyers.map((buyer) => <BuyerCard key={buyer.id} {...buyer} />)
           )}
         </div>
+        <Link href="contact/contact">Go to Contact Page</Link>
       </div>
     </>
   );

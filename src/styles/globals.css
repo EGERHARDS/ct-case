@@ -30,11 +30,35 @@
   border-width: 0;
   border-style: solid;
   border-color: currentColor;
+  text-decoration: none;
+}
+
+nav a {
+  text-decoration: none;
+  padding: 1.5rem;
+  padding-top: 2rem;
+  background-color: var(--dark-blue);
+  color: var(--dusty-aqua-light);
+  font-family: var(--font-serif);
+  font-size: 40px;
+  justify-self: center;
+}
+
+nav {
+  text-align: center;
+  margin-top: 3rem;
+  width: 100%;
+}
+
+nav a:hover {
+  background-color: var(--hover);
 }
 
 body,
 html {
   margin: 0;
+  padding: 1.5rem;
+  background-color: var(--blue);
 }
 
 body {
@@ -43,8 +67,65 @@ body {
   color: var(--blue);
 }
 
+select,
+input {
+  height: 1.5rem;
+}
+
 .wrapper {
   max-width: 800px;
   padding: 0 1rem;
   margin: 0 auto;
+}
+
+button {
+  background-color: var(--blue);
+  color: var(--dusty-aqua);
+  padding: 0.5rem
+}
+
+button a {
+  text-decoration: none;
+  color: var(--dusty-aqua);
+  font-weight: 700;
+}
+
+button:hover {
+  background-color: var(--dusty-aqua-light);
+  color: var(--blue);
+}
+
+button a:hover {
+  color: var(--dark-blue)
+}
+
+form {
+  font-family: var(--font-sans);
+  margin-top: 2rem;
+}
+
+span {
+  padding-top: 1rem
+}
+
+.thanks {
+  text-align: center;
+}
+
+.intro {
+  text-align: center;
+}
+
+#chosen {
+  background-color: var(--blue);
+  color: var(--dusty-aqua-light);
+  padding: 1rem
+}
+
+#chosen button {
+  border: 2px solid var(--dusty-aqua-light);
+}
+
+#chosen button:hover {
+  color: var(--blue)
 }

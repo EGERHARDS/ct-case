@@ -1,7 +1,9 @@
 import { useBuyer } from "@/context/BuyerContext";
+import { useRouter } from 'next/router';
 
 export default function Contact() {
   const { chosenBuyers, removeBuyer } = useBuyer();
+  const router = useRouter();
 
   // implement form submit handling here
   const handleSubmit = async (event) => {
@@ -29,7 +31,7 @@ export default function Contact() {
     });
   
     if (response.ok) {
-      alert("Form submitted successfully!"); // TODO: Handle successful form submission (e.g., show a success message)
+      router.push('/thanks'); 
     } else {
       console.log("Error response:", response);
       alert("An error occurred. Please try again."); // TODO: Handle error in form submission
@@ -40,13 +42,16 @@ export default function Contact() {
   return (
     <div>
       <h1>Contact Buyers</h1>
+     <div id="chosen">
       <h2>Chosen Buyers:</h2>
       {chosenBuyers.map((buyer, index) => (
         <div key={index}>
-          <p>{buyer.id}</p>
+          <p>ID: {buyer.id}</p>
+          <p>Description: {buyer.description}</p>
           <button onClick={() => removeBuyer(buyer.id)}>Remove</button>
         </div>
       ))}
+      </div>
       <form onSubmit={handleSubmit}>
         <input name="sellerName" type="text" placeholder="Your Name" required />
         <input

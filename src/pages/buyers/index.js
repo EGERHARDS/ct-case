@@ -19,7 +19,7 @@ export default function Buyers({ buyers }) {
             buyers.map((buyer) => <BuyerCard key={buyer.id} {...buyer} />)
           )}
         </div>
-        <Link href="contact/contact">Go to Contact Page</Link>
+        <button><Link href="contact/contact">Go to Contact Page</Link></button>
       </div>
     </>
   );
